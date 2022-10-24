@@ -4,26 +4,33 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    private float damage = 20;
+    private float damage;
     public bool fired = false;
-    public float movementSpeed;
+    private float speed;
 
     // Update is called once per frame
-    public void Fire()
+    public void Fire(float newDamage, float newSpeed)
     {
         fired = true;
+        damage = newDamage;
+        speed = newSpeed;     
     }
 
     private void FixedUpdate()
     {
         if (fired == true)
         {
-            transform.position += transform.forward * Time.deltaTime * movementSpeed;
+            transform.position += transform.forward * Time.deltaTime * speed;
         }
     }
 
     public float getDamage()
     {
         return damage;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        Destroy(this.gameObject);
     }
 }

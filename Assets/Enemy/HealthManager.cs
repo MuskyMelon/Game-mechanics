@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class HealthManager : MonoBehaviour
 {
-    float health = 80f;
+    public float health = 80f;
     // Start is called before the first frame update
     private void OnCollisionEnter(Collision other)
     {
