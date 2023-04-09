@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyFlocking : MonoBehaviour
 {
@@ -8,10 +9,13 @@ public class EnemyFlocking : MonoBehaviour
     GameObject[] AI;
     public float spaceBetween = 1.5f;
 
+    private NavMeshAgent agent;
+
     // Start is called before the first frame update
     void Start()
     {
         AI = GameObject.FindGameObjectsWithTag("Enemy");
+        agent = GetComponent<NavMeshAgent>();
     }
 
     // Update is called once per frame
@@ -29,7 +33,7 @@ public class EnemyFlocking : MonoBehaviour
             if (distance <= spaceBetween)
             {
                 Vector3 direction = transform.position - go.transform.position;
-                transform.Translate(direction * Time.deltaTime);
+                agent.destination = direction * Time.deltaTime;
             }
         }
     }
