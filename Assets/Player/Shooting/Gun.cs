@@ -15,7 +15,12 @@ public class Gun : MonoBehaviour
     public float bulletSpeed = 20;
 
     private bool mouseDown = false;
-    private float timer, reloadTimer = 0;
+    public float timer, reloadTimer = 0;
+
+    private BulletDisplay bulletDisplay;
+    public bool isReloading;
+
+    private bool isPlayer = false;
 
     // Update is called once per frame
 
@@ -23,6 +28,16 @@ public class Gun : MonoBehaviour
     {
         ammo = ammoCapacity;
         timer = 1 / fireRate;
+        isReloading = false;
+
+        bulletDisplay = GameObject.FindGameObjectWithTag("BulletDisplay").GetComponent<BulletDisplay>();
+
+        if(this.gameObject.transform.parent.tag == "Player")
+        {
+            isPlayer = true;
+        }
+
+        UpdateBullets(ammo, ammoCapacity);
     }
 
     public void pullTrigger()
@@ -40,17 +55,23 @@ public class Gun : MonoBehaviour
 
         reloadTimer -= Time.deltaTime;
 
-        if (ammo < 0)
+        if (ammo <= 0 && isReloading == false)
         {
             reloadTimer = reloadTime;
-            ammo = ammoCapacity;
+            isReloading = true;
         }
 
         if (reloadTimer > 0)
             return;
 
-
         timer -= Time.deltaTime;
+
+        if (isReloading == true)
+        {
+            isReloading = false;
+            ammo = ammoCapacity;
+            UpdateBullets(ammo, ammoCapacity);
+        }
 
         if (!mouseDown)
             return;
@@ -60,13 +81,15 @@ public class Gun : MonoBehaviour
             this.Shoot();
             ammo -= 1;
             timer = 1 / fireRate;
+            UpdateBullets(ammo, ammoCapacity);
         }
 
     }
 
     public void Shoot()
     {
-        Vector3 tempPos = this.transform.parent.transform.GetChild(0).position;
+        // find child with tag "Gun"
+        Vector3 tempPos = this.transform.position;
 
         Vector3 rotatedOffset = this.transform.parent.rotation * offset;
 
@@ -80,5 +103,13 @@ public class Gun : MonoBehaviour
         Bullet bulletHandler = newBullet.GetComponent<Bullet>();
 
         bulletHandler.Fire(damage, bulletSpeed);
+    }
+
+    private void UpdateBullets(int ammo, int ammoCapacity)
+    {
+        if (isPlayer)
+        {
+            bulletDisplay.UpdateBullets(ammo, ammoCapacity);
+        }
     }
 }

@@ -22,7 +22,6 @@ public class PlayerWeaponHandler : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
             gun.releaseTrigger();
     }
-
     
     private void initWeapon()
     {
