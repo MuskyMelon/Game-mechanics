@@ -66,9 +66,7 @@ public class Powerup : MonoBehaviour
         if (timer <= 0)
         {
             this.Shoot();
-            print(ammo);
             ammo -= 1;
-            print(ammo);
             timer = 1 / fireRate;
         }
 

@@ -9,9 +9,10 @@ public class HealthManager : MonoBehaviour
     public float maxHealth = 80f;
     public Slider slider;
     public bool isImmuneToBullets = false;
+    public bool showHealthbar = true;
 
     public ScreenHandler screenHandler;
-    public 
+    
 
     void Start()
     {
@@ -21,30 +22,42 @@ public class HealthManager : MonoBehaviour
     // Start is called before the first frame update
     private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.tag == "Bullet")
+        if (other.gameObject.tag == "Bullet" && !isImmuneToBullets)
         {
             Bullet bulletScript = other.gameObject.GetComponent<Bullet>();
 
             health -= bulletScript.getDamage();
 
             Destroy(other.gameObject);
-
-            if (health <= 0)
-            {
-                if(gameObject.tag == "Player")
-                {
-                    screenHandler.ShowLoseScreen();
-                }
-                Destroy(this.gameObject);
-            }
-
-            updateHealthBar();
         }
+
+        print(other.gameObject.tag);
+
+        if (other.gameObject.tag == "iceBullet")
+        {
+            print("owo");
+            Bullet bulletScript = other.gameObject.GetComponent<Bullet>();
+
+            health -= bulletScript.getDamage();
+            Destroy(other.gameObject);
+        }
+
+        if (health <= 0)
+        {
+            if (gameObject.tag == "Player")
+            {
+                screenHandler.ShowLoseScreen();
+            }
+            Destroy(this.gameObject);
+        }
+
+        updateHealthBar();
     }
 
 
     private void updateHealthBar()
     {
-        slider.value = health / maxHealth;
+        if(showHealthbar)
+            slider.value = health / maxHealth;
     }
 }

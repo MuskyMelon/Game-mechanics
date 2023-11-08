@@ -125,7 +125,7 @@ MonoBehaviour:
   fireRate: 2
   sprayRadius: 0
   reloadTime: 4
-  damage: 20
+  damage: 40
   bulletSpeed: 20
   timer: 0
   reloadTimer: 0
