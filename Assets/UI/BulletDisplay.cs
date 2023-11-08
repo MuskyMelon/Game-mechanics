@@ -24,7 +24,6 @@ public class BulletDisplay : MonoBehaviour
 
     public void UpdateBullets(int currentBullets, int maxBullets)
     {
-        print(currentBullets);
         // set height of mask
         float newHeight = initialHeight * ((float)currentBullets / (float)maxBullets);
         bulletMask.transform.localScale = new Vector3(bulletMask.transform.localScale.x, newHeight, bulletMask.transform.localScale.z);

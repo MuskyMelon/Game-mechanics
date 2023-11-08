@@ -8,6 +8,10 @@ public class HealthManager : MonoBehaviour
     public float health;
     public float maxHealth = 80f;
     public Slider slider;
+    public bool isImmuneToBullets = false;
+
+    public ScreenHandler screenHandler;
+    public 
 
     void Start()
     {
@@ -27,6 +31,10 @@ public class HealthManager : MonoBehaviour
 
             if (health <= 0)
             {
+                if(gameObject.tag == "Player")
+                {
+                    screenHandler.ShowLoseScreen();
+                }
                 Destroy(this.gameObject);
             }
 
